@@ -1,3 +1,4 @@
+QT += gui
 CONFIG += silent
 RESOURCES += resources.qrc
 HEADERS += src/startscene.h
