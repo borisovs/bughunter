@@ -5,8 +5,8 @@
 #include <phonon/audiooutput.h>
 #include <QtDebug>
 
-GameScene::GameScene(QObject *parent )
-    :QGraphicsScene(parent)
+GameScene::GameScene(QObject *parent, int level, int value)
+    :QGraphicsScene(parent), m_level(level), m_value(value)
 {
     setBackgroundBrush(QBrush(QPixmap(":/background/resources/grass.png")));
     playMusic();
@@ -31,11 +31,19 @@ QRectF GameScene::fieldRect() const
 
 void GameScene::playMusic()
 {
-    Phonon::MediaObject *music =
-             Phonon::createPlayer(Phonon::MusicCategory,
-                                  Phonon::MediaSource(qApp->applicationDirPath() + QDir::separator()+ "audio" +QDir::separator()+ "music.mp3"));
-    qDebug()<< music->currentSource().fileName();
+
+    Phonon::MediaObject *music = new Phonon::MediaObject(this);
+    music->setCurrentSource(Phonon::MediaSource(qApp->applicationDirPath() + QDir::separator()+ "audio" +QDir::separator()+ "music.mp3"));
+
+    Phonon::AudioOutput *audioOutput = new Phonon::AudioOutput(Phonon::MusicCategory, this);
+    Phonon::Path path = Phonon::createPath(music, audioOutput);
+
+    audioOutput->setVolume(qreal(m_value));
+
     music->play();
+
+    qDebug()<<audioOutput->volume();
+
 
 
 }

@@ -11,7 +11,7 @@ GraphicsView::GraphicsView(QWidget *parent)
 
     setScene(scene);
     setSceneRect(0,0, 800, 480);
-    connect(scene, SIGNAL(game()), this, SLOT(startGame()));
+    connect(scene, SIGNAL(game(int, int)), this, SLOT(startGame(int, int)));
     connect(scene, SIGNAL(exit()), this, SLOT(close()));
 
     setFixedSize(sceneRect().width(), sceneRect().height());
@@ -21,12 +21,12 @@ GraphicsView::GraphicsView(QWidget *parent)
 }
 
 
-void GraphicsView::startGame()
+void GraphicsView::startGame(int level, int music)
 {
     if(scene())
         delete scene();
 
-    GameScene *game = new GameScene;
+    GameScene *game = new GameScene(0, level, music);
     setScene(game);
 }
 

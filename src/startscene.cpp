@@ -27,7 +27,7 @@ void StartScene::loadData()
 {
     int m_pos = sceneRect().height()/4;
 
-    ProgressBar *m_levelBar = new ProgressBar(0, "Level");
+    m_levelBar = new ProgressBar(0, "Level");
     m_pos = m_pos - m_levelBar->boundingRect().height() * 2 ;
     m_levelBar->setPos(sceneRect().width()/2 - m_levelBar->boundingRect().width()/2, m_pos);
 
@@ -40,7 +40,7 @@ void StartScene::loadData()
     QGraphicsSimpleTextItem *m_hard = addSimpleText(tr("Hard"), QFont("Arial", 12));
     m_hard->setPos(m_levelBar->pos().x() + m_levelBar->boundingRect().width(), m_levelBar->pos().y()+m_levelBar->boundingRect().height()/2);
 
-    ProgressBar *m_musicBar = new ProgressBar(0, "Music");
+    m_musicBar = new ProgressBar(0, "Music");
     m_pos = m_pos + m_musicBar->boundingRect().height() * 2 ;
     m_musicBar->setPos(sceneRect().width()/2 - m_levelBar->boundingRect().width()/2, m_pos );
 
@@ -58,7 +58,7 @@ void StartScene::loadData()
     start->setPos(sceneRect().width()/2 - start->boundingRect().width()/2, m_pos );
 
     addItem(start);
-    connect(start, SIGNAL(clicked()), this, SIGNAL(game()));
+    connect(start, SIGNAL(clicked()), this, SLOT(startGame()));
 
     ButtonQ *quit = new ButtonQ;
     m_pos = m_pos + quit->boundingRect().height() * 2 ;
@@ -68,11 +68,11 @@ void StartScene::loadData()
     connect(quit, SIGNAL(clicked()), this, SIGNAL(exit()));
 }
 
-//void StartScene::startGame()
-//{
-//    GameScene *game = new GameScene;
-//
-//}
+void StartScene::startGame()
+{
+    emit game(m_levelBar->getLevel() / 3 , m_musicBar->getLevel() / 3);
+
+}
 
 ProgressBar::ProgressBar(QGraphicsObject *parent, QString str)
     :QGraphicsObject(parent), m_cap(str)
@@ -142,6 +142,10 @@ QPoint ProgressBar::loadData()
     return m_pos;
 }
 
+int ProgressBar::getLevel()
+{
+    return m_pos.x();
+}
 
 Button::Button(QGraphicsObject *parent, bool pressed)
     :QGraphicsObject(parent), isPressed(pressed)

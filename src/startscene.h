@@ -5,6 +5,8 @@
 #include <QtGui/QGraphicsObject>
 #include <QtGui/QGraphicsSceneMouseEvent>
 
+class ProgressBar;
+
 class StartScene : public QGraphicsScene
 {
     Q_OBJECT
@@ -12,12 +14,14 @@ public:
     StartScene(QObject *parent = 0);
     QRectF sceneRect () const;
 signals:
-    void game();
+    void game(int, int);
     void exit();
-//private slots:
-//    void startGame();
+private slots:
+    void startGame();
 private:
     void loadData();
+    ProgressBar *m_levelBar;
+    ProgressBar *m_musicBar;
 };
 
 class ProgressBar: public QGraphicsObject
@@ -27,6 +31,7 @@ public:
     ProgressBar(QGraphicsObject *parent = 0, QString str = QString());
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    int getLevel();
 protected:
    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
    void mousePressEvent(QGraphicsSceneMouseEvent *event);

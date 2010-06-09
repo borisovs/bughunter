@@ -9,7 +9,7 @@ class GraphicsView : public QGraphicsView
 public:
     GraphicsView(QWidget * parent = 0);
 private slots:
-    void startGame();
+    void startGame(int level, int music);
 };
 
 #endif // GRAPHICSVIEW_H
