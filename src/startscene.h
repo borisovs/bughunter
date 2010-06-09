@@ -18,7 +18,7 @@ class ProgressBar: public QGraphicsObject
 {
 //    Q_OBJECT
 public:
-    ProgressBar(QGraphicsObject *parent = 0);
+    ProgressBar(QGraphicsObject *parent = 0, QString str = QString());
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 protected:
@@ -32,6 +32,25 @@ private:
    void setData(QPoint);
    QPoint loadData();
    QPoint m_pos;
+   QString m_cap;
+
+};
+
+
+class Button: public QGraphicsObject
+{
+    Q_OBJECT
+public:
+    Button(QGraphicsObject *parent = 0, bool pressed = false);
+    QRectF boundingRect() const;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+protected:
+   void mousePressEvent(QGraphicsSceneMouseEvent *event);
+   void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+signals:
+   void clicked();
+private:
+   bool isPressed;
 
 };
 
