@@ -39,7 +39,6 @@ private:
    QPoint loadData();
    QPoint m_pos;
    QString m_cap;
-
 };
 
 

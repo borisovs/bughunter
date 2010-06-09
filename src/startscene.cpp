@@ -77,7 +77,7 @@ void StartScene::loadData()
 ProgressBar::ProgressBar(QGraphicsObject *parent, QString str)
     :QGraphicsObject(parent), m_cap(str)
 {
-
+    setData(QPoint(150, 0));
 }
 
 QRectF ProgressBar::boundingRect() const
