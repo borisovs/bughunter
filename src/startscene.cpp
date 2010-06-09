@@ -25,7 +25,7 @@ QRectF StartScene::sceneRect() const
 
 void StartScene::loadData()
 {
-    int m_pos = sceneRect().height()/3;
+    int m_pos = sceneRect().height()/4;
 
     ProgressBar *m_levelBar = new ProgressBar(0, "Level");
     m_pos = m_pos - m_levelBar->boundingRect().height() * 2 ;
@@ -59,6 +59,13 @@ void StartScene::loadData()
 
     addItem(start);
     connect(start, SIGNAL(clicked()), this, SIGNAL(game()));
+
+    ButtonQ *quit = new ButtonQ;
+    m_pos = m_pos + quit->boundingRect().height() * 2 ;
+    quit->setPos(sceneRect().width()/2 - quit->boundingRect().width()/2, m_pos );
+
+    addItem(quit);
+    connect(quit, SIGNAL(clicked()), this, SIGNAL(exit()));
 }
 
 //void StartScene::startGame()
@@ -181,6 +188,57 @@ void Button::mousePressEvent(QGraphicsSceneMouseEvent *event)
 }
 
 void Button::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+{
+    isPressed = false;
+    update();
+    emit clicked();
+}
+
+ButtonQ::ButtonQ(QGraphicsObject *parent, bool pressed)
+    :QGraphicsObject(parent), isPressed(pressed)
+{
+
+}
+
+QRectF ButtonQ::boundingRect() const
+{
+    return QRectF(0, 0, 300, 50) ;
+}
+
+void ButtonQ::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
+    painter->save();
+
+    QLinearGradient grad(QPointF(boundingRect().center().x(), 0), QPointF(boundingRect().center().x(), boundingRect().bottom()));
+
+    if (!isPressed) {
+        grad.setColorAt(0, QColor(100, 100, 100));
+        grad.setColorAt(1, QColor(50, 50, 50));
+    } else {
+        grad.setColorAt(0, Qt::yellow);
+        grad.setColorAt(1, Qt::darkYellow);
+
+}
+    painter->setPen(Qt::gray);
+    painter->setBrush(grad);
+    painter->drawRoundRect(boundingRect(), 5, 15);
+
+    painter->setFont(QFont("Arial", 24));
+    painter->setPen(Qt::darkGray);
+    painter->drawText(boundingRect(), Qt::AlignCenter ,tr("Quit"));
+
+    painter->restore();
+}
+
+
+
+void ButtonQ::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    isPressed = true;
+    update();
+}
+
+void ButtonQ::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     isPressed = false;
     update();

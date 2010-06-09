@@ -13,6 +13,7 @@ public:
     QRectF sceneRect () const;
 signals:
     void game();
+    void exit();
 //private slots:
 //    void startGame();
 private:
@@ -47,6 +48,23 @@ class Button: public QGraphicsObject
     Q_OBJECT
 public:
     Button(QGraphicsObject *parent = 0, bool pressed = false);
+    QRectF boundingRect() const;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+protected:
+   void mousePressEvent(QGraphicsSceneMouseEvent *event);
+   void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+signals:
+   void clicked();
+private:
+   bool isPressed;
+
+};
+
+class ButtonQ: public QGraphicsObject
+{
+    Q_OBJECT
+public:
+    ButtonQ(QGraphicsObject *parent = 0, bool pressed = false);
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 protected:

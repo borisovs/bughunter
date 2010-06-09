@@ -12,6 +12,8 @@ GraphicsView::GraphicsView(QWidget *parent)
     setScene(scene);
     setSceneRect(0,0, 800, 480);
     connect(scene, SIGNAL(game()), this, SLOT(startGame()));
+    connect(scene, SIGNAL(exit()), this, SLOT(close()));
+
     setFixedSize(sceneRect().width(), sceneRect().height());
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
