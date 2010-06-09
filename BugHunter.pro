@@ -1,4 +1,4 @@
-QT += gui
+QT += gui phonon
 CONFIG += silent
 RESOURCES += resources.qrc
 HEADERS += src/startscene.h \
