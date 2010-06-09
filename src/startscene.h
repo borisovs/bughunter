@@ -7,9 +7,14 @@
 
 class StartScene : public QGraphicsScene
 {
+    Q_OBJECT
 public:
     StartScene(QObject *parent = 0);
     QRectF sceneRect () const;
+signals:
+    void game();
+//private slots:
+//    void startGame();
 private:
     void loadData();
 };

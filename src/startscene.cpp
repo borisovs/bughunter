@@ -3,6 +3,7 @@
 
 #include <QPainter>
 #include <QGraphicsSimpleTextItem>
+#include "gamescene.h"
 
 StartScene::StartScene(QObject *parent)
     :QGraphicsScene(parent)
@@ -57,7 +58,14 @@ void StartScene::loadData()
     start->setPos(sceneRect().width()/2 - start->boundingRect().width()/2, m_pos );
 
     addItem(start);
+    connect(start, SIGNAL(clicked()), this, SIGNAL(game()));
 }
+
+//void StartScene::startGame()
+//{
+//    GameScene *game = new GameScene;
+//
+//}
 
 ProgressBar::ProgressBar(QGraphicsObject *parent, QString str)
     :QGraphicsObject(parent), m_cap(str)
