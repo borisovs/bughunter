@@ -19,6 +19,15 @@ QRectF GameScene::sceneRect() const
 
 }
 
+QRectF GameScene::infoRect() const
+{
+    return QRectF(0, 0, sceneRect().width(), 20);
+}
+
+QRectF GameScene::fieldRect() const
+{
+    return QRectF (0, infoRect().height(), sceneRect().width(), sceneRect().height());
+}
 
 void GameScene::playMusic()
 {

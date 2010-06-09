@@ -8,6 +8,8 @@ class GameScene : public QGraphicsScene
 public:
     GameScene(QObject *parent = 0);
     QRectF sceneRect () const;
+    QRectF fieldRect () const;
+    QRectF infoRect () const;
 private:
     void playMusic();
 };
