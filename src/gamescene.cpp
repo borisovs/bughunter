@@ -8,12 +8,11 @@
 #include <QGraphicsEffect>
 #include "gamescene.h"
 #include <phonon/audiooutput.h>
-#include <QtDebug>
 #include "bug.h"
 #include "infoitem.h"
 
 GameScene::GameScene(QObject *parent, int level, int value)
-    :QGraphicsScene(parent), m_time(level), m_value(value), m_bugCount(0), m_score(0)
+    :QGraphicsScene(parent), m_level(level), m_value(value), m_bugCount(0), m_score(0), m_time(118)
 {
     setBackgroundBrush(QBrush(QPixmap(":/background/resources/grass.png")));
     loadBugs();
@@ -63,66 +62,42 @@ void GameScene::playMusic()
 
 void GameScene::loadBugs()
 {
-    for (int i = 0; i < 45; ++i){
+    for (int i = 0; i < m_level; ++i){
         m_list.insert(i, new Bug());
     }
 
-    qDebug()<<m_list.count();
 
     QList<Bug *>::iterator it = m_list.begin();
-    int i =0;
     while (it != m_list.end()){
 
-//    int x = 16 + rand()% static_cast<int>(450 );
+        int x = 16 + rand()% static_cast<int>(750 );
 
-//    int y = 50 + rand()% static_cast<int>(240);
+        int y = 50 + rand()% static_cast<int>(400);
 
-     addItem(*it);
-     (*it)->setPos(getPosition());
-    (*it)->setZValue(1);
+        addItem(*it);
+        (*it)->setPos(x , y);
 
-
-    qDebug()<<++i<<" Item " << (*it)->scenePos();
-     ++it;
+        ++it;
     }
 
     m_bugCount = m_list.count();
     rotateBugs();
 }
 
-QPointF GameScene::getPosition()
-{
-    int x = rand()% static_cast<int>(750 );
-    int y = rand()% static_cast<int>(400 );
-
-    if (x >= sceneRect().width() - 32)
-        x-=100;
-    if (y >= sceneRect().height() - 32 )
-        y-=100;
-    if  (y < 36)
-        y= 36;
-
-    qDebug()<< x << y;
-
-
-    return QPointF(x , y);
-
-}
-
 void GameScene::rotateBugs()
 {
-   QList<Bug *>::iterator it = m_list.begin();
-   while (it != m_list.end()){
+    QList<Bug *>::iterator it = m_list.begin();
+    while (it != m_list.end()){
 
-       QPropertyAnimation *anim= new QPropertyAnimation(*it, "angle");
-       anim->setStartValue((*it)->rotation());
-       anim->setEndValue(360 + (*it)->rotation());
-       anim->setDuration(5000);
-       anim->start();
-      anim->setLoopCount(-1);
+        QPropertyAnimation *anim= new QPropertyAnimation(*it, "angle");
+        anim->setStartValue((*it)->rotation());
+        anim->setEndValue(360 + (*it)->rotation());
+        anim->setDuration(5000);
+        anim->start();
+        anim->setLoopCount(-1);
 
-       ++it;
-   }
+        ++it;
+    }
 
 
 
@@ -131,18 +106,15 @@ void GameScene::rotateBugs()
 void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
 
-         if (itemAt(event->scenePos())) {
-            kill->play();
-            kill->seek(0);
-            removeBug(event->scenePos());
+    if (itemAt(event->scenePos())) {
+        kill->play();
+        kill->seek(0);
+        removeBug(event->scenePos());
 
-         } else {
-            shot->play();
-            shot->seek(0);
-        }
-
-        qDebug()<<event->scenePos();
-
+    } else {
+        shot->play();
+        shot->seek(0);
+    }
 }
 
 void GameScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
@@ -174,7 +146,7 @@ void GameScene::removeBug(const QPointF &point)
         music->stop();
         m_list.clear();
         emit gameFinished();
-     }
+    }
 
 }
 

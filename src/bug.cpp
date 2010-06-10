@@ -3,8 +3,6 @@
 #include "bug.h"
 #include <cmath>
 
-#include <QtDebug>
-
 Bug::Bug(QGraphicsItem *parent) :
     QGraphicsObject(parent)
 {
@@ -49,5 +47,5 @@ void Bug::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 void Bug::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
-    qDebug()<<"Yes";
+
 }
