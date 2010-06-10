@@ -2,8 +2,8 @@
 #include <QDir>
 #include <QList>
 #include <QPropertyAnimation>
+#include <QGraphicsSceneMouseEvent>
 #include "gamescene.h"
-#include <phonon/mediaobject.h>
 #include <phonon/audiooutput.h>
 #include <QtDebug>
 #include "bug.h"
@@ -14,6 +14,7 @@ GameScene::GameScene(QObject *parent, int level, int value)
     setBackgroundBrush(QBrush(QPixmap(":/background/resources/grass.png")));
     loadBugs();
     playMusic();
+    shot = Phonon::createPlayer(Phonon::MusicCategory, Phonon::MediaSource(qApp->applicationDirPath() + QDir::separator()+ "audio" +QDir::separator()+ "shot.wav"));
 }
 
 
@@ -58,16 +59,28 @@ void GameScene::loadBugs()
         m_list.insert(i, new Bug());
     }
 
-     QList<Bug *>::iterator it = m_list.begin();
+    QList<Bug *>::iterator it = m_list.begin();
     while (it != m_list.end()){
         Bug *bug = *it;
         addItem(bug);
-        bug->setPos(rand()% static_cast<int>(sceneRect().width()),  rand()% static_cast<int>(sceneRect().height()));
 
-          rotateBugs();
+           int x = rand()% static_cast<int>(fieldRect().width() );
+           int y = rand()% static_cast<int>(fieldRect().height() );
+
+           if (x >= fieldRect().width() - bug->boundingRect().width())
+               x-=32;
+           if (y >= fieldRect().height() - bug->boundingRect().height() )
+               y-=32;
+           if  (y < 36)
+               y= 36;
+
+
+        bug->setPos(x , y) ;
 
         ++it;
     }
+
+    rotateBugs();
 
 }
 
@@ -81,10 +94,20 @@ void GameScene::rotateBugs()
        anim->setEndValue(360 + (*it)->rotation());
        anim->setDuration(5000);
        anim->start();
-//       anim->setLoopCount(-1);
+      anim->setLoopCount(-1);
 
        ++it;
    }
 
+}
+
+void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    shot->play();
+    shot->seek(0);
+}
+
+void GameScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+{
 
 }

@@ -7,6 +7,7 @@ GraphicsView::GraphicsView(QWidget *parent)
     :QGraphicsView(parent)
 {
     setRenderHint(QPainter::Antialiasing);
+    setInteractive(true);
     StartScene *scene = new StartScene();
 
     setScene(scene);

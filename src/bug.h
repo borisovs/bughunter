@@ -11,6 +11,8 @@ public:
     explicit Bug(QGraphicsItem *parent = 0);
     QRectF boundingRect() const;
 protected:
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 //signals:
 //

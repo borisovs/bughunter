@@ -3,6 +3,8 @@
 #include "bug.h"
 #include <cmath>
 
+#include <QtDebug>
+
 Bug::Bug(QGraphicsItem *parent) :
     QGraphicsObject(parent)
 {
@@ -39,3 +41,13 @@ void Bug::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidg
      painter->drawPixmap(0, 0,  m_pixmap);
 }
 
+
+void Bug::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    qDebug() << isSelected();
+}
+
+void Bug::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+{
+
+}
