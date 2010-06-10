@@ -15,6 +15,7 @@ GameScene::GameScene(QObject *parent, int level, int value)
     loadBugs();
     playMusic();
     shot = Phonon::createPlayer(Phonon::MusicCategory, Phonon::MediaSource(qApp->applicationDirPath() + QDir::separator()+ "audio" +QDir::separator()+ "shot.wav"));
+    kill = Phonon::createPlayer(Phonon::MusicCategory, Phonon::MediaSource(qApp->applicationDirPath() + QDir::separator()+ "audio" +QDir::separator()+ "kill.wav"));
 }
 
 
@@ -86,7 +87,7 @@ void GameScene::loadBugs()
 
 void GameScene::rotateBugs()
 {
-    QList<Bug *>::iterator it = m_list.begin();
+   QList<Bug *>::iterator it = m_list.begin();
    while (it != m_list.end()){
 
        QPropertyAnimation *anim= new QPropertyAnimation(*it, "angle");
@@ -103,8 +104,18 @@ void GameScene::rotateBugs()
 
 void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    shot->play();
-    shot->seek(0);
+
+         if (itemAt(event->scenePos())) {
+            kill->play();
+            kill->seek(0);
+            removeItem(itemAt(event->scenePos()));
+         } else {
+            shot->play();
+            shot->seek(0);
+        }
+
+        qDebug()<<event->scenePos();
+
 }
 
 void GameScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)

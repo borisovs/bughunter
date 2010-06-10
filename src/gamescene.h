@@ -23,6 +23,7 @@ private:
     int m_level;
     int m_value;
     Phonon::MediaObject *shot;
+    Phonon::MediaObject *kill;
 };
 
 #endif // GAMESCENE_H

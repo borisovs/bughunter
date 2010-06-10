@@ -44,10 +44,10 @@ void Bug::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidg
 
 void Bug::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    qDebug() << isSelected();
+
 }
 
 void Bug::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
-
+    qDebug()<<"Yes";
 }
