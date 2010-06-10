@@ -3,7 +3,9 @@
 
 #include <QPainter>
 #include <QGraphicsSimpleTextItem>
+#include <QPropertyAnimation>
 #include "gamescene.h"
+#include "bug.h"
 
 StartScene::StartScene(QObject *parent)
     :QGraphicsScene(parent)
@@ -15,6 +17,66 @@ StartScene::StartScene(QObject *parent)
     setBackgroundBrush(grad);
 
     loadData();
+
+    QList<Bug *> m_list1;
+    for (int i=0 ; i<6; ++i){
+        m_list1.insert(i, new Bug());
+    }
+
+    QList<Bug *> m_list2;
+    for (int i=0 ; i<6; ++i){
+        m_list2.insert(i, new Bug());
+    }
+
+    QList<Bug *>::iterator bugit1 = m_list1.begin();
+    int x1 = 100, y1 = 50;
+    while (bugit1 != m_list1.end()){
+
+
+        (*bugit1)->setPos(x1, y1);
+        addItem(*bugit1);
+        y1+=50;
+        ++bugit1;
+    }
+
+    QList<Bug *>::iterator bugit2 = m_list2.begin();
+    int x2 = 700, y2 = 50;
+    while (bugit2 != m_list2.end()){
+
+
+        (*bugit2)->setPos(x2, y2);
+        addItem(*bugit2);
+        y2+=50;
+        ++bugit2;
+    }
+
+    QList<Bug *>::iterator it1 = m_list1.begin();
+    while (it1 != m_list1.end()){
+
+        QPropertyAnimation *anim= new QPropertyAnimation(*it1, "angle");
+        anim->setStartValue((*it1)->rotation());
+        anim->setEndValue(360 + (*it1)->rotation());
+        anim->setDuration(5000);
+        anim->start();
+        anim->setLoopCount(-1);
+
+        ++it1;
+    }
+
+    QList<Bug *>::iterator it2 = m_list2.begin();
+    while (it2 != m_list2.end()){
+
+        QPropertyAnimation *anim= new QPropertyAnimation(*it2, "angle");
+        anim->setStartValue((*it2)->rotation());
+        anim->setEndValue(360 + (*it2)->rotation());
+        anim->setDuration(5000);
+        anim->start();
+        anim->setLoopCount(-1);
+
+        ++it2;
+    }
+
+
 }
 
 QRectF StartScene::sceneRect() const
@@ -114,11 +176,11 @@ void ProgressBar::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
 
 void  ProgressBar::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-   if (event->pos().x() <= boundingRect().bottomRight().x() && event->pos().y() <= boundingRect().bottomRight().y() && event->pos().x() > 30){
-       QPointF m_point= event->pos();
-       setData(m_point.toPoint());
-       qDebug()<<(int)event->pos().x()/3 ;
-   }
+    if (event->pos().x() <= boundingRect().bottomRight().x() && event->pos().y() <= boundingRect().bottomRight().y() && event->pos().x() > 30){
+        QPointF m_point= event->pos();
+        setData(m_point.toPoint());
+        qDebug()<<(int)event->pos().x()/3 ;
+    }
 
 }
 
@@ -176,7 +238,7 @@ void Button::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
         grad.setColorAt(0, Qt::yellow);
         grad.setColorAt(1, Qt::darkYellow);
 
-}
+    }
     painter->setPen(Qt::gray);
     painter->setBrush(grad);
     painter->drawRoundRect(boundingRect(), 5, 15);
@@ -227,7 +289,7 @@ void ButtonQ::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
         grad.setColorAt(0, Qt::yellow);
         grad.setColorAt(1, Qt::darkYellow);
 
-}
+    }
     painter->setPen(Qt::gray);
     painter->setBrush(grad);
     painter->drawRoundRect(boundingRect(), 5, 15);

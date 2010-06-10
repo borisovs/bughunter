@@ -5,6 +5,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QMessageBox>
 #include <QTimer>
+#include <QGraphicsEffect>
 #include "gamescene.h"
 #include <phonon/audiooutput.h>
 #include <QtDebug>
@@ -120,6 +121,7 @@ void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
             kill->play();
             kill->seek(0);
             removeBug(event->scenePos());
+
          } else {
             shot->play();
             shot->seek(0);
@@ -147,7 +149,6 @@ void GameScene::removeBug(const QPointF &point)
 {
 
     removeItem(itemAt(point));
-
 
     --m_bugCount;
     ++m_score;
