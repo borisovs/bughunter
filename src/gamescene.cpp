@@ -1,14 +1,18 @@
 #include <QApplication>
 #include <QDir>
+#include <QList>
+#include <QPropertyAnimation>
 #include "gamescene.h"
 #include <phonon/mediaobject.h>
 #include <phonon/audiooutput.h>
 #include <QtDebug>
+#include "bug.h"
 
 GameScene::GameScene(QObject *parent, int level, int value)
     :QGraphicsScene(parent), m_level(level), m_value(value)
 {
     setBackgroundBrush(QBrush(QPixmap(":/background/resources/grass.png")));
+    loadBugs();
     playMusic();
 }
 
@@ -44,6 +48,31 @@ void GameScene::playMusic()
 
     qDebug()<<audioOutput->volume();
 
+
+
+}
+
+void GameScene::loadBugs()
+{
+    for (int i = 0; i <= m_level; ++i){
+        m_list.insert(i, new Bug());
+    }
+
+     QList<Bug *>::iterator it = m_list.begin();
+    while (it != m_list.end()){
+        Bug *bug = *it;
+        addItem(bug);
+        bug->setPos(rand()% static_cast<int>(sceneRect().width()),  rand()% static_cast<int>(sceneRect().height()));
+
+        QPropertyAnimation *anim= new QPropertyAnimation(bug, "angle");
+        anim->setStartValue(bug->rotation());
+        anim->setEndValue(360+bug->rotation());
+        anim->setDuration(5000);
+        anim->start();
+        anim->setLoopCount(-1);
+
+        ++it;
+    }
 
 
 }

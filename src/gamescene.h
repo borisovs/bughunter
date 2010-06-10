@@ -2,6 +2,7 @@
 #define GAMESCENE_H
 
 #include <QGraphicsScene>
+class Bug;
 
 class GameScene : public QGraphicsScene
 {
@@ -12,6 +13,8 @@ public:
     QRectF infoRect () const;
 private:
     void playMusic();
+    void loadBugs();
+    QList <Bug *> m_list;
     int m_level;
     int m_value;
 };
