@@ -8,5 +8,6 @@
     <qresource prefix="/background">
         <file>resources/leaf.png</file>
         <file>resources/grass.png</file>
+        <file>resources/smoke.png</file>
     </qresource>
 </RCC>

@@ -114,9 +114,10 @@ void ProgressBar::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
 
 void  ProgressBar::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-   if (event->pos().x() <= boundingRect().bottomRight().x() && event->pos().y() <= boundingRect().bottomRight().y()){
+   if (event->pos().x() <= boundingRect().bottomRight().x() && event->pos().y() <= boundingRect().bottomRight().y() && event->pos().x() > 30){
        QPointF m_point= event->pos();
        setData(m_point.toPoint());
+       qDebug()<<(int)event->pos().x()/3 ;
    }
 
 }
@@ -124,9 +125,10 @@ void  ProgressBar::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
 void ProgressBar::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    if (event->pos().x() <= boundingRect().bottomRight().x() && event->pos().y() <= boundingRect().bottomRight().y()){
+    if (event->pos().x() <= boundingRect().bottomRight().x() && event->pos().y() <= boundingRect().bottomRight().y() && event->pos().x() > 30){
         QPointF m_point= event->pos();
         setData(m_point.toPoint());
+        qDebug()<<(int)event->pos().x()/3 ;
     }
 }
 

@@ -8,15 +8,17 @@ GraphicsView::GraphicsView(QWidget *parent)
 {
     setRenderHint(QPainter::Antialiasing);
 
-    StartScene *scene = new StartScene();
-
+    scene = new StartScene();
     setScene(scene);
     setSceneRect(0,0, 800, 480);
+
     connect(scene, SIGNAL(game(int, int)), this, SLOT(startGame(int, int)));
     connect(scene, SIGNAL(exit()), this, SLOT(close()));
 
     setFixedSize(sceneRect().width(), sceneRect().height());
+
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
 }
@@ -24,11 +26,18 @@ GraphicsView::GraphicsView(QWidget *parent)
 
 void GraphicsView::startGame(int level, int music)
 {
-    if(scene())
-        delete scene();
+if(game)
+    delete game;
 
-    GameScene *game = new GameScene(0, level, music);
+    game = new GameScene(0, level, music);
+    connect(game, SIGNAL(gameFinished()), this, SLOT(gameFinished()));
     setScene(game);
+}
+
+
+void GraphicsView::gameFinished()
+{
+    setScene(scene);
 }
 
 
