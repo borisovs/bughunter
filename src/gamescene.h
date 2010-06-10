@@ -28,8 +28,9 @@ private:
     void removeBug(const QPointF &point);
     void rotateBugs();
     void loadInfo();
+    QPointF getPosition();
     QList <Bug *> m_list;
-    int m_level;
+    int m_time;
     int m_value;
     Phonon::MediaObject *shot;
     Phonon::MediaObject *kill;
@@ -37,8 +38,8 @@ private:
     InfoItem *info;
     int m_bugCount;
     int m_score;
-    int m_time;
     QTimer *m_gameTimer;
+    QVector<QPointF> m_points;
 };
 
 #endif // GAMESCENE_H

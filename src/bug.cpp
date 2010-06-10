@@ -15,7 +15,7 @@ Bug::Bug(QGraphicsItem *parent) :
     map.insert(++i, QPixmap(":/bugs/resources/fly.png"));
     map.insert(++i, QPixmap(":/bugs/resources/ladybug.png"));
 
-    m_pixmap = map.value(rand()%4, QPixmap());
+    m_pixmap = map.value(1 + rand()%4, QPixmap());
 
     setTransformOriginPoint(boundingRect().center());
     setAngle(rand() % 360);

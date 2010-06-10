@@ -13,7 +13,7 @@
 #include "infoitem.h"
 
 GameScene::GameScene(QObject *parent, int level, int value)
-    :QGraphicsScene(parent), m_level(level), m_value(value), m_bugCount(0), m_score(0), m_time(10)
+    :QGraphicsScene(parent), m_time(level), m_value(value), m_bugCount(0), m_score(0)
 {
     setBackgroundBrush(QBrush(QPixmap(":/background/resources/grass.png")));
     loadBugs();
@@ -63,38 +63,50 @@ void GameScene::playMusic()
 
 void GameScene::loadBugs()
 {
-    for (int i = 0; i < m_level; ++i){
+    for (int i = 0; i < 45; ++i){
         m_list.insert(i, new Bug());
     }
 
     qDebug()<<m_list.count();
 
     QList<Bug *>::iterator it = m_list.begin();
+    int i =0;
     while (it != m_list.end()){
 
-           addItem(*it);
+//    int x = 16 + rand()% static_cast<int>(450 );
 
-           int x = rand()% static_cast<int>(fieldRect().width() );
-           int y = rand()% static_cast<int>(fieldRect().height() );
+//    int y = 50 + rand()% static_cast<int>(240);
 
-           if (x >= fieldRect().width() - (*it)->boundingRect().width())
-               x-=32;
-           if (y >= fieldRect().height() - (*it)->boundingRect().height() )
-               y-=32;
-           if  (y < 36)
-               y= 36;
+     addItem(*it);
+     (*it)->setPos(getPosition());
+    (*it)->setZValue(1);
 
-           qDebug()<< x << y;
 
-        (*it)->setPos(QPointF(x , y)) ;
-        Bug *bug = *it;
-        bug->setVisible(true);
-
-        ++it;   
+    qDebug()<<++i<<" Item " << (*it)->scenePos();
+     ++it;
     }
 
     m_bugCount = m_list.count();
     rotateBugs();
+}
+
+QPointF GameScene::getPosition()
+{
+    int x = rand()% static_cast<int>(750 );
+    int y = rand()% static_cast<int>(400 );
+
+    if (x >= sceneRect().width() - 32)
+        x-=100;
+    if (y >= sceneRect().height() - 32 )
+        y-=100;
+    if  (y < 36)
+        y= 36;
+
+    qDebug()<< x << y;
+
+
+    return QPointF(x , y);
+
 }
 
 void GameScene::rotateBugs()
@@ -111,6 +123,8 @@ void GameScene::rotateBugs()
 
        ++it;
    }
+
+
 
 }
 
@@ -160,7 +174,7 @@ void GameScene::removeBug(const QPointF &point)
         music->stop();
         m_list.clear();
         emit gameFinished();
-    }
+     }
 
 }
 
