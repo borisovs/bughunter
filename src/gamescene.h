@@ -14,6 +14,7 @@ public:
 private:
     void playMusic();
     void loadBugs();
+    void rotateBugs();
     QList <Bug *> m_list;
     int m_level;
     int m_value;

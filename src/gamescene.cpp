@@ -64,15 +64,27 @@ void GameScene::loadBugs()
         addItem(bug);
         bug->setPos(rand()% static_cast<int>(sceneRect().width()),  rand()% static_cast<int>(sceneRect().height()));
 
-        QPropertyAnimation *anim= new QPropertyAnimation(bug, "angle");
-        anim->setStartValue(bug->rotation());
-        anim->setEndValue(360+bug->rotation());
-        anim->setDuration(5000);
-        anim->start();
-        anim->setLoopCount(-1);
+          rotateBugs();
 
         ++it;
     }
+
+}
+
+void GameScene::rotateBugs()
+{
+    QList<Bug *>::iterator it = m_list.begin();
+   while (it != m_list.end()){
+
+       QPropertyAnimation *anim= new QPropertyAnimation(*it, "angle");
+       anim->setStartValue((*it)->rotation());
+       anim->setEndValue(360 + (*it)->rotation());
+       anim->setDuration(5000);
+       anim->start();
+//       anim->setLoopCount(-1);
+
+       ++it;
+   }
 
 
 }
