@@ -6,7 +6,7 @@
 int main (int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    app.setWindowIcon(QIcon(":/bugs/resources/bug.png"));
+    app.setWindowIcon(QIcon(":/bugs/resources/ladybug.png"));
 
     GraphicsView gv;
 

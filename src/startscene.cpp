@@ -124,7 +124,10 @@ void  ProgressBar::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
 void ProgressBar::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-
+    if (event->pos().x() <= boundingRect().bottomRight().x() && event->pos().y() <= boundingRect().bottomRight().y()){
+        QPointF m_point= event->pos();
+        setData(m_point.toPoint());
+    }
 }
 
 
