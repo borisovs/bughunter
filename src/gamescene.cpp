@@ -110,7 +110,9 @@ void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
     if (itemAt(event->scenePos())) {
         kill->play();
         kill->seek(0);
-        removeBug(event->scenePos());
+            if (m_bugCount > 0) {
+                removeBug(event->scenePos());
+            }
 
     } else {
         shot->play();
@@ -134,23 +136,20 @@ void GameScene::updateInfo()
 
 void GameScene::removeBug(const QPointF &point)
 {
-
     removeItem(itemAt(point));
 
     --m_bugCount;
     ++m_score;
 
     updateInfo();
+
     if (m_bugCount ==0 ) {
         m_gameTimer->stop();
         MessageBox *message = new MessageBox(MessageBox::Winner);
+        message->setMessage(QString(tr("You score is:  ")+QString::number(m_score * 10)));
         addItem(message);
         message->setPos(sceneRect().center().x()- message->boundingRect().width()/2, sceneRect().center().y()- message->boundingRect().height()/2);
         connect(message, SIGNAL(stopGame()), SLOT(finish()));
-//        QMessageBox::information(0, "BugHunter", QString(tr("Congratulate you win!\n You score is:  ")+QString::number(m_score * 10)));
-//        music->stop();
-//        m_list.clear();
-//        emit gameFinished();
     }
 
 }
@@ -167,17 +166,17 @@ void GameScene::loadInfo()
 void GameScene::updateTimer()
 {
     if (m_time == 0){
-        MessageBox message(MessageBox::Looser);
-        addItem(&message);
-        connect(&message, SIGNAL(stopGame()), SLOT(finish()));
+        m_gameTimer->stop();
+        MessageBox *message = new MessageBox(MessageBox::Looser);
+        message->setMessage(QString(tr("You score is:  ")+QString::number(m_score * 10)));
+        addItem(message);
+        message->setPos(sceneRect().center().x()- message->boundingRect().width()/2, sceneRect().center().y()- message->boundingRect().height()/2);
+        connect(message, SIGNAL(stopGame()), SLOT(finish()));
+    } else {
 
-//        QMessageBox::information(0, "BugHunter", QString(tr("Sorry, you lose!\n You score is:  ")+QString::number(m_score * 10)));
-//        music->stop();
-//        m_list.clear();
-//        emit gameFinished();
-    }
     --m_time;
 
+    }
     updateInfo();
 
 }
