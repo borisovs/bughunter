@@ -4,7 +4,7 @@
 
 
 GraphicsView::GraphicsView(QWidget *parent)
-    :QGraphicsView(parent)
+    :QGraphicsView(parent), game(0)
 {
     setRenderHint(QPainter::Antialiasing);
 

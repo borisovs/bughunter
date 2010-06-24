@@ -72,7 +72,7 @@ void GameScene::loadBugs()
 
         int x = 16 + rand()% static_cast<int>(750 );
 
-        int y = 50 + rand()% static_cast<int>(400);
+        int y = 50 + rand()% static_cast<int>(330);
 
         addItem(*it);
         (*it)->setPos(x , y);
