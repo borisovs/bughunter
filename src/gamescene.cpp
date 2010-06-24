@@ -10,6 +10,7 @@
 #include <phonon/audiooutput.h>
 #include "bug.h"
 #include "infoitem.h"
+#include "messagebox.h"
 
 GameScene::GameScene(QObject *parent, int level, int value)
     :QGraphicsScene(parent), m_level(level), m_value(value), m_bugCount(0), m_score(0), m_time(118)
@@ -142,10 +143,14 @@ void GameScene::removeBug(const QPointF &point)
     updateInfo();
     if (m_bugCount ==0 ) {
         m_gameTimer->stop();
-        QMessageBox::information(0, "BugHunter", QString(tr("Congratulate you win!\n You score is:  ")+QString::number(m_score * 10)));
-        music->stop();
-        m_list.clear();
-        emit gameFinished();
+        MessageBox *message = new MessageBox(MessageBox::Winner);
+        addItem(message);
+        message->setPos(sceneRect().center().x()- message->boundingRect().width()/2, sceneRect().center().y()- message->boundingRect().height()/2);
+        connect(message, SIGNAL(stopGame()), SLOT(finish()));
+//        QMessageBox::information(0, "BugHunter", QString(tr("Congratulate you win!\n You score is:  ")+QString::number(m_score * 10)));
+//        music->stop();
+//        m_list.clear();
+//        emit gameFinished();
     }
 
 }
@@ -162,13 +167,25 @@ void GameScene::loadInfo()
 void GameScene::updateTimer()
 {
     if (m_time == 0){
-        QMessageBox::information(0, "BugHunter", QString(tr("Sorry, you lose!\n You score is:  ")+QString::number(m_score * 10)));
-        music->stop();
-        m_list.clear();
-        emit gameFinished();
+        MessageBox message(MessageBox::Looser);
+        addItem(&message);
+        connect(&message, SIGNAL(stopGame()), SLOT(finish()));
+
+//        QMessageBox::information(0, "BugHunter", QString(tr("Sorry, you lose!\n You score is:  ")+QString::number(m_score * 10)));
+//        music->stop();
+//        m_list.clear();
+//        emit gameFinished();
     }
     --m_time;
 
     updateInfo();
 
+}
+
+void GameScene::finish()
+{
+
+            music->stop();
+            m_list.clear();
+            emit gameFinished();
 }

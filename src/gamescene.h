@@ -20,6 +20,7 @@ protected:
 private slots:
         void updateInfo();
         void updateTimer();
+        void finish();
 signals:
         void gameFinished();
 private:
