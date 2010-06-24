@@ -110,7 +110,7 @@ void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
     if (itemAt(event->scenePos())) {
         kill->play();
         kill->seek(0);
-            if (m_bugCount > 0) {
+            if (m_bugCount > 0 && (itemAt(event->scenePos()) != info)) {
                 removeBug(event->scenePos());
             }
 
