@@ -2,9 +2,13 @@
 #define GAMESCENE_H
 
 #include <QGraphicsScene>
+#include <QSet>
 #include <phonon/mediaobject.h>
+#include "smoke.h"
+
 class Bug;
 class InfoItem;
+
 
 class GameScene : public QGraphicsScene
 {
@@ -21,12 +25,13 @@ private slots:
         void updateInfo();
         void updateTimer();
         void finish();
+        void removeBug(const QPointF &point);
 signals:
         void gameFinished();
 private:
     void playMusic();
     void loadBugs();
-    void removeBug(const QPointF &point);
+//    void removeBug(const QPointF &point);
     void rotateBugs();
     void loadInfo();
     QList <Bug *> m_list;
@@ -41,6 +46,8 @@ private:
     int m_time;
     QTimer *m_gameTimer;
     QVector<QPointF> m_points;
+    Smoke *smoke;
+    QSet<Smoke *> m_set;
 };
 
 #endif // GAMESCENE_H

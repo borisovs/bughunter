@@ -14,6 +14,7 @@
 #include "infoitem.h"
 #include "messagebox.h"
 
+
 GameScene::GameScene(QObject *parent, int level, int value)
     :QGraphicsScene(parent), m_level(level), m_value(value), m_bugCount(0), m_score(0), m_time(118)
 {
@@ -118,9 +119,9 @@ void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
     if (itemAt(event->scenePos()) && (itemAt(event->scenePos()) != info)) {
         shot->play();
         shot->seek(0);
-            if (m_bugCount > 0 && (itemAt(event->scenePos()) != info)) {
-                removeBug(event->scenePos());
-            }
+        if (m_bugCount > 0 && (itemAt(event->scenePos()) != info)) {
+            removeBug(event->scenePos());
+        }
 
     } else {
         shot->play();
@@ -144,11 +145,23 @@ void GameScene::updateInfo()
 
 void GameScene::removeBug(const QPointF &point)
 {
-        removeItem (itemAt(point));
+    if (m_set.contains(static_cast<Smoke *>(itemAt(point))))
+        return;
 
-        QGraphicsPixmapItem *m_smoke = addPixmap(QPixmap(":/background/resources/smoke.png"));
-        m_smoke->setPos(point.x() - (m_smoke->boundingRect().width()/2), point.y() - (m_smoke->boundingRect().height()/2));
-        m_smoke->show();
+    removeItem (itemAt(point));
+
+
+
+    smoke = new Smoke;
+    addItem(smoke);
+    smoke->setPos(point.x() - (smoke->boundingRect().width()/2), point.y() - (smoke->boundingRect().height()/2));
+    smoke->show();
+    m_set.insert(smoke);
+
+
+
+    QTimer::singleShot(100, smoke, SLOT(deleteLater()));
+
 
 
 
@@ -188,7 +201,7 @@ void GameScene::updateTimer()
         connect(message, SIGNAL(stopGame()), SLOT(finish()));
     } else {
 
-    --m_time;
+        --m_time;
 
     }
     updateInfo();
@@ -198,7 +211,7 @@ void GameScene::updateTimer()
 void GameScene::finish()
 {
 
-            music->stop();
-            m_list.clear();
-            emit gameFinished();
+    music->stop();
+    m_list.clear();
+    emit gameFinished();
 }
