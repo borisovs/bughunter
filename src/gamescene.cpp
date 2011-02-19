@@ -6,9 +6,10 @@
 #include <QMessageBox>
 #include <QTimer>
 #include <QGraphicsEffect>
-#include "gamescene.h"
 #include <phonon/audiooutput.h>
 #include <QCursor>
+#include <QGraphicsPixmapItem>
+#include "gamescene.h"
 #include "bug.h"
 #include "infoitem.h"
 #include "messagebox.h"
@@ -28,6 +29,9 @@ GameScene::GameScene(QObject *parent, int level, int value)
     m_gameTimer->setInterval(1000);
     connect(m_gameTimer, SIGNAL(timeout()), this, SLOT (updateTimer()));
     m_gameTimer->start();
+
+    connect(this, SIGNAL(letDel(QPointF)), this, SLOT(removeBug(QPointF)));
+
     QCursor m_cur(QPixmap(":/bugs/resources/cursor.png"));
     QApplication::setOverrideCursor(m_cur);
 
@@ -112,8 +116,8 @@ void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
 
     if (itemAt(event->scenePos()) && (itemAt(event->scenePos()) != info)) {
-        kill->play();
-        kill->seek(0);
+        shot->play();
+        shot->seek(0);
             if (m_bugCount > 0 && (itemAt(event->scenePos()) != info)) {
                 removeBug(event->scenePos());
             }
@@ -140,7 +144,13 @@ void GameScene::updateInfo()
 
 void GameScene::removeBug(const QPointF &point)
 {
-    removeItem(itemAt(point));
+        removeItem (itemAt(point));
+
+        QGraphicsPixmapItem *m_smoke = addPixmap(QPixmap(":/background/resources/smoke.png"));
+        m_smoke->setPos(point.x() - (m_smoke->boundingRect().width()/2), point.y() - (m_smoke->boundingRect().height()/2));
+        m_smoke->show();
+
+
 
     --m_bugCount;
     ++m_score;
