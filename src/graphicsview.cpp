@@ -1,3 +1,4 @@
+#include <QApplication>
 #include "graphicsview.h"
 #include "startscene.h"
 #include "gamescene.h"
@@ -38,6 +39,7 @@ if(game)
 void GraphicsView::gameFinished()
 {
     setScene(scene);
+    QApplication::restoreOverrideCursor();
 }
 
 

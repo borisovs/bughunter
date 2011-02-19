@@ -8,6 +8,7 @@
 #include <QGraphicsEffect>
 #include "gamescene.h"
 #include <phonon/audiooutput.h>
+#include <QCursor>
 #include "bug.h"
 #include "infoitem.h"
 #include "messagebox.h"
@@ -27,6 +28,9 @@ GameScene::GameScene(QObject *parent, int level, int value)
     m_gameTimer->setInterval(1000);
     connect(m_gameTimer, SIGNAL(timeout()), this, SLOT (updateTimer()));
     m_gameTimer->start();
+    QCursor m_cur(QPixmap(":/bugs/resources/cursor.png"));
+    QApplication::setOverrideCursor(m_cur);
+
 }
 
 
@@ -107,7 +111,7 @@ void GameScene::rotateBugs()
 void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
 
-    if (itemAt(event->scenePos())) {
+    if (itemAt(event->scenePos()) && (itemAt(event->scenePos()) != info)) {
         kill->play();
         kill->seek(0);
             if (m_bugCount > 0 && (itemAt(event->scenePos()) != info)) {
