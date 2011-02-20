@@ -26,6 +26,7 @@ private slots:
         void updateTimer();
         void finish();
         void removeBug(const QPointF &point);
+        void moveBugs();
 signals:
         void gameFinished();
 private:

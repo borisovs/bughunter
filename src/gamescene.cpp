@@ -9,6 +9,7 @@
 #include <phonon/audiooutput.h>
 #include <QCursor>
 #include <QGraphicsPixmapItem>
+#include <cmath>
 #include "gamescene.h"
 #include "bug.h"
 #include "infoitem.h"
@@ -104,12 +105,12 @@ void GameScene::rotateBugs()
         anim->setEndValue(360 + (*it)->rotation());
         anim->setDuration(5000);
         anim->start();
-        anim->setLoopCount(-1);
+        anim->setLoopCount(1);
 
         ++it;
     }
 
-
+moveBugs();
 
 }
 
@@ -214,4 +215,21 @@ void GameScene::finish()
     music->stop();
     m_list.clear();
     emit gameFinished();
+}
+
+
+void GameScene::moveBugs()
+{
+    QList<Bug *>::iterator it = m_list.begin();
+    while (it != m_list.end()){
+
+        QPropertyAnimation *m_move= new QPropertyAnimation(*it, "pos");
+        m_move->setStartValue((*it)->pos());
+        m_move->setEndValue(QPointF( (*it)->pos().x() - 50 , (*it)->pos().y() - 50) );
+        m_move->setDuration(3000);
+        m_move->start();
+        m_move->setLoopCount(1000);
+
+        ++it;
+    }
 }
