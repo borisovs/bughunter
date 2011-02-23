@@ -234,13 +234,8 @@ void GameScene::moveBugs()
             Bug *bug = qobject_cast<Bug *>(sender());
             QPropertyAnimation *m_move= new QPropertyAnimation(bug, "pos");
             m_move->setStartValue(bug->pos());
-
-            if (((bug->pos().x() - 50) <= 0) || ((bug->pos().y() - 50) <= 0))
-               m_move->setEndValue(QPointF(bug->pos().x()+50, bug->pos().y()+50));
-            else
-                m_move->setEndValue(QPointF( bug->pos().x() - 50 , bug->pos().y() - 50) );
-
-            m_move->setDuration(rand() % 3 * 1000);
+            m_move->setEndValue(getNextPos(bug));
+            m_move->setDuration(rand() % 3 * 5000);
             m_move->setLoopCount(1);
             m_move->start();
 
@@ -258,4 +253,26 @@ void GameScene::moveBugs()
 
 //        ++it;
 //    }
+}
+
+QPointF GameScene::getNextPos(Bug *bug) const
+{
+
+    int nextX = rand() % static_cast<int>(sceneRect().width());
+    int nextY = rand() % static_cast<int>(sceneRect().height());
+
+    if (nextX >= sceneRect().width())
+        nextX = nextX - (nextX - sceneRect().width());
+
+    if (nextY >= sceneRect().height() )
+        nextY = nextY - (nextY - sceneRect().height());
+
+    if (nextX <= 0)
+        nextX = rand() % 100 ;
+
+    if (nextY <= 0)
+        nextY = rand() % 50 ;
+
+    return    QPointF( nextX, nextY);
+
 }
