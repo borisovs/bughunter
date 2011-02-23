@@ -9,6 +9,7 @@
 #include <phonon/audiooutput.h>
 #include <QCursor>
 #include <QGraphicsPixmapItem>
+#include <QParallelAnimationGroup>
 #include <cmath>
 #include "gamescene.h"
 #include "bug.h"
@@ -32,7 +33,7 @@ GameScene::GameScene(QObject *parent, int level, int value)
     connect(m_gameTimer, SIGNAL(timeout()), this, SLOT (updateTimer()));
     m_gameTimer->start();
 
-    connect(this, SIGNAL(letDel(QPointF)), this, SLOT(removeBug(QPointF)));
+//    connect(this, SIGNAL(letDel(QPointF)), this, SLOT(removeBug(QPointF)));
 
     QCursor m_cur(QPixmap(":/bugs/resources/cursor.png"));
     QApplication::setOverrideCursor(m_cur);
@@ -97,20 +98,29 @@ void GameScene::loadBugs()
 
 void GameScene::rotateBugs()
 {
+
     QList<Bug *>::iterator it = m_list.begin();
     while (it != m_list.end()){
 
+        Bug *bug = (*it);
         QPropertyAnimation *anim= new QPropertyAnimation(*it, "angle");
-        anim->setStartValue((*it)->rotation());
-        anim->setEndValue(360 + (*it)->rotation());
-        anim->setDuration(5000);
-        anim->start();
+        anim->setStartValue(bug->rotation());
+        anim->setEndValue(rand() % 360 + bug->rotation());
+        anim->setDuration(rand() % 5 * 1000);
         anim->setLoopCount(1);
+
+        connect(bug, SIGNAL(rotateFinished()), this, SLOT(moveBugs()));
+        connect(anim, SIGNAL(finished()), bug, SLOT(notify()));
+
+        anim->start();
+
+
 
         ++it;
     }
 
-moveBugs();
+
+//moveBugs();
 
 }
 
@@ -220,16 +230,32 @@ void GameScene::finish()
 
 void GameScene::moveBugs()
 {
-    QList<Bug *>::iterator it = m_list.begin();
-    while (it != m_list.end()){
 
-        QPropertyAnimation *m_move= new QPropertyAnimation(*it, "pos");
-        m_move->setStartValue((*it)->pos());
-        m_move->setEndValue(QPointF( (*it)->pos().x() - 50 , (*it)->pos().y() - 50) );
-        m_move->setDuration(3000);
-        m_move->start();
-        m_move->setLoopCount(1000);
+            Bug *bug = qobject_cast<Bug *>(sender());
+            QPropertyAnimation *m_move= new QPropertyAnimation(bug, "pos");
+            m_move->setStartValue(bug->pos());
 
-        ++it;
-    }
+            if (((bug->pos().x() - 50) <= 0) || ((bug->pos().y() - 50) <= 0))
+               m_move->setEndValue(QPointF(bug->pos().x()+50, bug->pos().y()+50));
+            else
+                m_move->setEndValue(QPointF( bug->pos().x() - 50 , bug->pos().y() - 50) );
+
+            m_move->setDuration(rand() % 3 * 1000);
+            m_move->setLoopCount(1);
+            m_move->start();
+
+            connect(m_move, SIGNAL(finished()), this, SLOT(rotateBugs()));
+//            ++it;
+
+//    QList<Bug *>::iterator it = m_list.begin();
+//    while (it != m_list.end()){
+
+//        QPropertyAnimation *m_move= new QPropertyAnimation(*it, "pos");
+//        m_move->setStartValue((*it)->pos());
+//        m_move->setEndValue(QPointF( (*it)->pos().x() - 50 , (*it)->pos().y() - 50) );
+//        m_move->setDuration(rand() % 3 * 1000);
+//        m_move->setLoopCount(1);
+
+//        ++it;
+//    }
 }

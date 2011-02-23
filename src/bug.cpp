@@ -49,3 +49,8 @@ void Bug::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
 
 }
+
+void Bug::notify()
+{
+    emit rotateFinished();
+}

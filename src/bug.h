@@ -14,11 +14,12 @@ protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
-//signals:
-//
+signals:
+   void rotateFinished();
 public slots:
     void setAngle(qreal);
     qreal angle() const;
+    void notify();
 private:
     QPixmap m_pixmap;
     int m_angle;

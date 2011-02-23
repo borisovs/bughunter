@@ -27,13 +27,13 @@ private slots:
         void finish();
         void removeBug(const QPointF &point);
         void moveBugs();
+        void rotateBugs();
 signals:
         void gameFinished();
 private:
     void playMusic();
     void loadBugs();
 //    void removeBug(const QPointF &point);
-    void rotateBugs();
     void loadInfo();
     QList <Bug *> m_list;
     int m_level;
