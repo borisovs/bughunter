@@ -240,26 +240,13 @@ void GameScene::moveBugs()
             m_move->start();
 
             connect(m_move, SIGNAL(finished()), this, SLOT(rotateBugs()));
-//            ++it;
-
-//    QList<Bug *>::iterator it = m_list.begin();
-//    while (it != m_list.end()){
-
-//        QPropertyAnimation *m_move= new QPropertyAnimation(*it, "pos");
-//        m_move->setStartValue((*it)->pos());
-//        m_move->setEndValue(QPointF( (*it)->pos().x() - 50 , (*it)->pos().y() - 50) );
-//        m_move->setDuration(rand() % 3 * 1000);
-//        m_move->setLoopCount(1);
-
-//        ++it;
-//    }
 }
 
 QPointF GameScene::getNextPos(Bug *bug) const
 {
 
-    int nextX = rand() % static_cast<int>(sceneRect().width());
-    int nextY = rand() % static_cast<int>(sceneRect().height());
+    int nextX =   rand() % static_cast<int>(sceneRect().width());
+    int nextY =   rand() % static_cast<int>(sceneRect().height());
 
     if (nextX >= sceneRect().width())
         nextX = nextX - (nextX - sceneRect().width());
