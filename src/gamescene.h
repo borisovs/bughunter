@@ -36,6 +36,7 @@ private:
 //    void removeBug(const QPointF &point);
     void loadInfo();
     QPointF getNextPos(Bug *) const;
+    QPointF getCurPos(Bug *) const;
     QList <Bug *> m_list;
     int m_level;
     int m_value;
