@@ -3,12 +3,12 @@
 
 #include <QGraphicsScene>
 #include <QSet>
-#include <phonon/mediaobject.h>
+
 #include "smoke.h"
 
 class Bug;
 class InfoItem;
-
+class QMediaPlayer;
 
 class GameScene : public QGraphicsScene
 {
@@ -40,9 +40,9 @@ private:
     QList <Bug *> m_list;
     int m_level;
     int m_value;
-    Phonon::MediaObject *shot;
-    Phonon::MediaObject *kill;
-    Phonon::MediaObject *music;
+    QMediaPlayer *shot;
+    QMediaPlayer *kill;
+    QMediaPlayer *music;
     InfoItem *info;
     int m_bugCount;
     int m_score;

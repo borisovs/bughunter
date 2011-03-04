@@ -1,6 +1,15 @@
-QT += gui \
-    phonon
-CONFIG += silent
+QT += core gui
+MOBILITY = multimedia
+
+#**************
+TARGET = bughunter
+#CONFIG += meegotouch
+TEMPLATE = app
+target.path=/usr/local/bin
+INSTALLS=target
+#**************
+
+CONFIG += silent mobility
 RESOURCES += resources.qrc
 HEADERS += src/startscene.h \
     src/gamescene.h \

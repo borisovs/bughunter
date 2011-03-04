@@ -6,10 +6,10 @@
 #include <QMessageBox>
 #include <QTimer>
 #include <QGraphicsEffect>
-#include <phonon/audiooutput.h>
 #include <QCursor>
 #include <QGraphicsPixmapItem>
 #include <QParallelAnimationGroup>
+#include <QtMultimediaKit/QMediaPlayer>
 #include <cmath>
 #include "gamescene.h"
 #include "bug.h"
@@ -25,8 +25,12 @@ GameScene::GameScene(QObject *parent, int level, int value)
     playMusic();
     loadInfo();
 
-    shot = Phonon::createPlayer(Phonon::MusicCategory, Phonon::MediaSource(qApp->applicationDirPath() + QDir::separator()+ "audio" +QDir::separator()+ "shot.wav"));
-    kill = Phonon::createPlayer(Phonon::MusicCategory, Phonon::MediaSource(qApp->applicationDirPath() + QDir::separator()+ "audio" +QDir::separator()+ "kill.wav"));
+    shot = new QMediaPlayer(this);
+    //    shot->setMedia(QUrl(qApp->applicationDirPath() + QDir::separator()+ "audio" +QDir::separator()+ "shot.wav"));
+         shot->setMedia(QUrl(":/music/audio/shot.wav"));
+
+        kill = new QMediaPlayer(this);
+        kill->setMedia(QUrl(":/music/audio/kill.wav"));
 
     m_gameTimer = new QTimer(parent);
     m_gameTimer->setInterval(1000);
@@ -60,16 +64,11 @@ QRectF GameScene::fieldRect() const
 void GameScene::playMusic()
 {
 
-    music = new Phonon::MediaObject(this);
-    music->setCurrentSource(Phonon::MediaSource(qApp->applicationDirPath() + QDir::separator()+ "audio" +QDir::separator()+ "music.mp3"));
+    music = new QMediaPlayer(this);
+    music->setMedia(QUrl(":/music/audio/music.mp3"));
 
-    Phonon::AudioOutput *audioOutput = new Phonon::AudioOutput(Phonon::MusicCategory, this);
-    Phonon::Path path = Phonon::createPath(music, audioOutput);
-
-    audioOutput->setVolume(qreal(m_value));
-
+    music->setVolume(qreal(m_value));
     music->play();
-
 }
 
 void GameScene::loadBugs()
@@ -129,14 +128,14 @@ void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
     if (itemAt(event->scenePos()) && (itemAt(event->scenePos()) != info)) {
         shot->play();
-        shot->seek(0);
+//        shot->seek(0);
         if (m_bugCount > 0 && (itemAt(event->scenePos()) != info)) {
             removeBug(event->scenePos());
         }
 
     } else {
         shot->play();
-        shot->seek(0);
+//        shot->seek(0);
     }
 }
 
