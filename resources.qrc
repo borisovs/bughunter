@@ -11,9 +11,4 @@
         <file>resources/grass.png</file>
         <file>resources/smoke.png</file>
     </qresource>
-    <qresource prefix="/music">
-        <file>audio/kill.wav</file>
-        <file>audio/music.mp3</file>
-        <file>audio/shot.wav</file>
-    </qresource>
 </RCC>

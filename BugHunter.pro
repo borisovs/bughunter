@@ -7,6 +7,9 @@ TARGET = bughunter
 TEMPLATE = app
 target.path=/usr/local/bin
 INSTALLS=target
+#DISTFILES += audio/kill.wav \
+ #              audio/shot.wav \
+  #             audio/music.mp3
 #**************
 
 CONFIG += silent mobility
@@ -26,3 +29,6 @@ SOURCES += src/startscene.cpp \
     src/infoitem.cpp \
     src/messagebox.cpp \
     src/smoke.cpp
+OTHER_FILES += audio/kill.wav \
+               audio/shot.wav \
+               audio/music.mp3

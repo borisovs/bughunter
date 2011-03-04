@@ -26,18 +26,17 @@ GameScene::GameScene(QObject *parent, int level, int value)
     loadInfo();
 
     shot = new QMediaPlayer(this);
-    //    shot->setMedia(QUrl(qApp->applicationDirPath() + QDir::separator()+ "audio" +QDir::separator()+ "shot.wav"));
-         shot->setMedia(QUrl(":/music/audio/shot.wav"));
+    shot->setMedia(QUrl("/usr/local/share/shot.wav"));
 
-        kill = new QMediaPlayer(this);
-        kill->setMedia(QUrl(":/music/audio/kill.wav"));
+    kill = new QMediaPlayer(this);
+    kill->setMedia(QUrl("/usr/local/share/kill.wav"));
 
     m_gameTimer = new QTimer(parent);
     m_gameTimer->setInterval(1000);
     connect(m_gameTimer, SIGNAL(timeout()), this, SLOT (updateTimer()));
     m_gameTimer->start();
 
-//    connect(this, SIGNAL(letDel(QPointF)), this, SLOT(removeBug(QPointF)));
+    //    connect(this, SIGNAL(letDel(QPointF)), this, SLOT(removeBug(QPointF)));
 
     QCursor m_cur(QPixmap(":/bugs/resources/cursor.png"));
     QApplication::setOverrideCursor(m_cur);
@@ -65,7 +64,7 @@ void GameScene::playMusic()
 {
 
     music = new QMediaPlayer(this);
-    music->setMedia(QUrl(":/music/audio/music.mp3"));
+    music->setMedia(QUrl("/usr/local/share/music.mp3"));
 
     music->setVolume(qreal(m_value));
     music->play();
@@ -119,7 +118,7 @@ void GameScene::rotateBugs()
     }
 
 
-//moveBugs();
+    //moveBugs();
 
 }
 
@@ -128,14 +127,14 @@ void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
     if (itemAt(event->scenePos()) && (itemAt(event->scenePos()) != info)) {
         shot->play();
-//        shot->seek(0);
+        //        shot->seek(0);
         if (m_bugCount > 0 && (itemAt(event->scenePos()) != info)) {
             removeBug(event->scenePos());
         }
 
     } else {
         shot->play();
-//        shot->seek(0);
+        //        shot->seek(0);
     }
 }
 
@@ -230,15 +229,15 @@ void GameScene::finish()
 void GameScene::moveBugs()
 {
 
-            Bug *bug = qobject_cast<Bug *>(sender());
-            QPropertyAnimation *m_move= new QPropertyAnimation(bug, "pos");
-            m_move->setStartValue(getCurPos(bug));
-            m_move->setEndValue(getNextPos(bug));
-            m_move->setDuration(10000);
-            m_move->setLoopCount(1);
-            m_move->start();
+    Bug *bug = qobject_cast<Bug *>(sender());
+    QPropertyAnimation *m_move= new QPropertyAnimation(bug, "pos");
+    m_move->setStartValue(getCurPos(bug));
+    m_move->setEndValue(getNextPos(bug));
+    m_move->setDuration(10000);
+    m_move->setLoopCount(1);
+    m_move->start();
 
-            connect(m_move, SIGNAL(finished()), this, SLOT(rotateBugs()));
+    connect(m_move, SIGNAL(finished()), this, SLOT(rotateBugs()));
 }
 
 QPointF GameScene::getNextPos(Bug *bug) const
