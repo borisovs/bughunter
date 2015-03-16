@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/bugs">
+        <file>resources/bug.png</file>
+        <file>resources/bugclop.png</file>
+        <file>resources/fly.png</file>
+        <file>resources/ladybug.png</file>
+        <file>resources/cursor.png</file>
+    </qresource>
+    <qresource prefix="/background">
+        <file>resources/leaf.png</file>
+        <file>resources/grass.png</file>
+        <file>resources/smoke.png</file>
+    </qresource>
+</RCC>
