@@ -9,7 +9,14 @@
 #include <QCursor>
 #include <QGraphicsPixmapItem>
 #include <QParallelAnimationGroup>
+
+#include <QtGlobal>
+#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
 #include <QtMultimediaKit/QMediaPlayer>
+#else
+#include <QtMultimedia/QMediaPlayer>
+#endif
+
 #include <cmath>
 #include "gamescene.h"
 #include "bug.h"
@@ -125,10 +132,10 @@ void GameScene::rotateBugs()
 void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
 
-    if (itemAt(event->scenePos()) && (itemAt(event->scenePos()) != info)) {
+    if (itemAt(event->scenePos(), QTransform()) && (itemAt(event->scenePos(), QTransform()) != info)) {
         shot->play();
         //        shot->seek(0);
-        if (m_bugCount > 0 && (itemAt(event->scenePos()) != info)) {
+        if (m_bugCount > 0 && (itemAt(event->scenePos(), QTransform()) != info)) {
             removeBug(event->scenePos());
         }
 
@@ -154,10 +161,10 @@ void GameScene::updateInfo()
 
 void GameScene::removeBug(const QPointF &point)
 {
-    if (m_set.contains(static_cast<Smoke *>(itemAt(point))))
+    if (m_set.contains(static_cast<Smoke *>(itemAt(point, QTransform()))))
         return;
 
-    removeItem (itemAt(point));
+    removeItem (itemAt(point, QTransform()));
 
 
 

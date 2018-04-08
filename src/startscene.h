@@ -1,9 +1,16 @@
 #ifndef STARTVIEW_H
 #define STARTVIEW_H
 
+#include <QtGlobal>
+#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
 #include <QtGui/QGraphicsScene>
 #include <QtGui/QGraphicsObject>
 #include <QtGui/QGraphicsSceneMouseEvent>
+#else
+#include <QtWidgets/QGraphicsScene>
+#include <QtWidgets/QGraphicsObject>
+#include <QtWidgets/QGraphicsSceneMouseEvent>
+#endif
 
 class ProgressBar;
 
