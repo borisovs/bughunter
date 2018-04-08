@@ -1,5 +1,10 @@
-QT += core gui
-MOBILITY = multimedia
+lessThan(QT_MAJOR_VERSION, 5) {
+    QT += core gui
+    MOBILITY = multimedia
+    CONFIG += mobility
+} else {
+    QT += core multimedia multimediawidgets
+}
 
 #**************
 TARGET = bughunter
@@ -12,7 +17,8 @@ INSTALLS=target
   #             audio/music.mp3
 #**************
 
-CONFIG += silent mobility
+CONFIG += silent
+
 RESOURCES += resources.qrc
 HEADERS += src/startscene.h \
     src/gamescene.h \
